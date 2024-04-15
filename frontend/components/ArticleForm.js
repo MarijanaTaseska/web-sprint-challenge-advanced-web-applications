@@ -11,6 +11,8 @@ export default function ArticleForm(props) {
   const {updateArticle} = props
   const {setArticles} = props
   const {currentArticle} = props
+  const {setIsEditing} = props
+  const {isEditing} = props
   
   
   // ✨ where are my props? Destructure them here
@@ -48,7 +50,8 @@ export default function ArticleForm(props) {
           console.log(updatedArticles);
           return updatedArticles;
         });
-        setValues(initialFormValues);
+        setValues(initialFormValues)
+        setIsEditing(false)
       })
       .catch(err => console.log(err.message))
      }else{
@@ -75,6 +78,7 @@ export default function ArticleForm(props) {
   const cancelEditHandler = (evt) =>{
     evt.preventDefault()
     setValues(initialFormValues) 
+    setIsEditing(false)
   }
 
   return (
@@ -105,7 +109,7 @@ export default function ArticleForm(props) {
       <div className="button-group">
         <button disabled={isDisabled()} id="submitArticle">Submit</button>
         {
-        currentArticle ? (
+        (isEditing) ? (
           <button onClick={cancelEditHandler}>Cancel edit</button>
         ) : null
         } 

@@ -5,13 +5,15 @@ import PT from 'prop-types'
 export default function Articles(props) {
   // ✨ where are my props? Destructure them here
   const navigate = useNavigate()
-  const [isEditing, setIsEditing] = useState(false)
+  
 
   const {getArticles} = props
   const {articles} = props
   const {deleteArticle} = props
   const {setCurrentArticleId} = props
   const {setCurrentArticle} = props
+  const {setIsEditing} = props
+  const {isEditing} = props
   
 
   // ✨ implement conditional logic: if no token exists

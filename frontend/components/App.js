@@ -6,7 +6,7 @@ import Message from './Message'
 import ArticleForm from './ArticleForm'
 import Spinner from './Spinner'
 import axios from 'axios'
-import axiosWithAuth from '../axios'
+
 
 
 const articlesUrl = 'http://localhost:9000/api/articles'
@@ -19,6 +19,7 @@ export default function App() {
   const [currentArticleId, setCurrentArticleId] = useState()
   const [spinnerOn, setSpinnerOn] = useState(false)
   const [currentArticle, setCurrentArticle] = useState()
+  const [isEditing, setIsEditing] = useState(false)
   
 
   // ✨ Research `useNavigate` in React Router v.6
@@ -143,6 +144,8 @@ export default function App() {
                updateArticle={updateArticle}
                setArticles={setArticles}
                currentArticle={currentArticle}
+               setIsEditing={setIsEditing}
+               isEditing={isEditing}
                />
                <Articles
              getArticles={getArticles}
@@ -150,6 +153,8 @@ export default function App() {
              deleteArticle={deleteArticle}
              setCurrentArticleId={setCurrentArticleId}
              setCurrentArticle={setCurrentArticle}
+             setIsEditing={setIsEditing}
+             isEditing={isEditing}
              /> 
               </> 
            }/>
