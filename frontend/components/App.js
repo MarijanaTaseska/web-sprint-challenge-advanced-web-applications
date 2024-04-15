@@ -146,6 +146,7 @@ export default function App() {
                currentArticle={currentArticle}
                setIsEditing={setIsEditing}
                isEditing={isEditing}
+               setCurrentArticleId={setCurrentArticleId}
                />
                <Articles
              getArticles={getArticles}
