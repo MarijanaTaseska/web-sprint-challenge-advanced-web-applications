@@ -5,14 +5,28 @@ const initialFormValues = { title: '', text: '', topic: '' }
 
 export default function ArticleForm(props) {
   const [values, setValues] = useState(initialFormValues)
+  
+  const {postArticle} = props
+  const {currentArticleId} = props
+  const {updateArticle} = props
+  const {setArticles} = props
+  const {currentArticle} = props
+  
+  
   // ✨ where are my props? Destructure them here
-
+  
   useEffect(() => {
+    if(currentArticle){
+    setValues(currentArticle)
+  }
+    else{
+      setValues(initialFormValues)
+    }
     // ✨ implement
     // Every time the `currentArticle` prop changes, we should check it for truthiness:
     // if it's truthy, we should set its title, text and topic into the corresponding
     // values of the form. If it's not, we should reset the form back to initial values.
-  })
+  },[currentArticle])
 
   const onChange = evt => {
     const { id, value } = evt.target
@@ -20,15 +34,47 @@ export default function ArticleForm(props) {
   }
 
   const onSubmit = evt => {
-    evt.preventDefault()
+     evt.preventDefault()
+     if(currentArticle){
+      updateArticle(currentArticleId, {
+        title: values.title,
+        text: values.text,
+        topic: values.topic 
+      })
+      .then(res => {
+        setArticles(prevArticles => {
+          const index = prevArticles.findIndex(article => article.article_id === currentArticleId);
+          const updatedArticles = [...prevArticles.slice(0, index), res.article, ...prevArticles.slice(index + 1)];
+          console.log(updatedArticles);
+          return updatedArticles;
+        });
+        setValues(initialFormValues);
+      })
+      .catch(err => console.log(err.message))
+     }else{
+      postArticle(values)
+      .then(res =>{
+      setArticles(prevArticles => [... prevArticles,res.article])
+      setValues(initialFormValues)
+     }
+      )
+      .catch(err => console.log(err))
+     }
     // ✨ implement
     // We must submit a new post or update an existing one,
     // depending on the truthyness of the `currentArticle` prop.
   }
 
   const isDisabled = () => {
-    // ✨ implement
-    // Make sure the inputs have some values
+    return !(
+      values.title.trim().length >= 1 &&
+      values.text.trim().length >= 1 && 
+      ['React', 'JavaScript', 'Node'].includes(values.topic)
+    )
+  }
+  const cancelEditHandler = (evt) =>{
+    evt.preventDefault()
+    setValues(initialFormValues) 
   }
 
   return (
@@ -58,7 +104,12 @@ export default function ArticleForm(props) {
       </select>
       <div className="button-group">
         <button disabled={isDisabled()} id="submitArticle">Submit</button>
-        <button onClick={Function.prototype}>Cancel edit</button>
+        {
+        currentArticle ? (
+          <button onClick={cancelEditHandler}>Cancel edit</button>
+        ) : null
+        } 
+        
       </div>
     </form>
   )

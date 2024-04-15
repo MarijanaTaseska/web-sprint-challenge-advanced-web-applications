@@ -1,11 +1,13 @@
-// ✨ implement axiosWithAuth
-import axios from "axios";
+// import axios from 'axios';
 
- 
-const baseURL = 'http://localhost:9000/api/articles'
+// function axiosWithAuth() {
+//   const token = localStorage.getItem('token');
 
-export const getData = () => {
-   axios.get(baseURL)
-    .then(res => console.log(res))
-    .catch(err => console.log(err.response))
-  };
+//   return axios.create({
+//     headers: {
+//       Authorization: `Bearer ${token}`
+//     }
+//   });
+// }
+
+// export default axiosWithAuth
